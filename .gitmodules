@@ -1,4 +1,6 @@
+[submodule "frankenlibc"]
+	path = frankenlibc
+	url = git://github.com/libos-nuse/frankenlibc.git
 [submodule "nginx"]
 	path = nginx
-	url = git://github.com/mato/nginx
-	branch = wip-crossbuild
+	url = git://github.com/libos-nuse/nginx.git

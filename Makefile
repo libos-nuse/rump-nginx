@@ -4,7 +4,7 @@ all: nginx images
 nginx: nginx/objs/nginx
 
 nginx/objs/nginx: nginx/Makefile
-	$(MAKE) -C nginx CC=rumprun-xen-cc
+	$(MAKE) -C nginx CC=rumprun-cc
 
 NGINX_CONF_ENV += \
 	ngx_force_c_compiler=yes \
@@ -19,8 +19,8 @@ NGINX_CONF_ENV += \
 	ngx_force_have_posix_sem=yes
 
 NGINX_CONF_OPTS += \
-	--crossbuild=NetBSD \
-	--with-cc=rumprun-xen-cc \
+	--crossbuild=Linux: \
+	--with-cc=rumprun-cc \
 	--prefix=/none \
 	--conf-path=/data/conf/nginx.conf \
 	--sbin-path=/none \
@@ -33,7 +33,9 @@ NGINX_CONF_OPTS += \
 	--http-fastcgi-temp-path=/tmp/fastcgi \
 	--http-scgi-temp-path=/tmp/scgi \
 	--http-uwsgi-temp-path=/tmp/uwsgi \
-	--without-http_rewrite_module
+	--without-http_rewrite_module \
+	--without-http_gzip_module \
+	--without-http_auth_basic_module
 
 nginx/Makefile: nginx/src
 	(cd nginx; $(NGINX_CONF_ENV) ./configure $(NGINX_CONF_OPTS))
