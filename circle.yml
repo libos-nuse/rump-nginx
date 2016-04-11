@@ -31,5 +31,5 @@ test:
   override:
     - make:
         parallel: true
-    - ./frankenlibc/rump/bin/rexec ./nginx/objs/nginx ./images/full.iso -- -c /data/conf/nginx.conf:
+    - ./frankenlibc/rump/bin/rexec ./nginx/objs/nginx ./images/full.iso -- -c /data/conf/nginx.conf & sleep 50 && kill %1:
         parallel: true
