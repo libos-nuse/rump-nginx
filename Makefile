@@ -45,13 +45,22 @@ nginx/src:
 	git submodule update
 
 .PHONY: images
-images: images/stubetc.iso images/data.iso
+images: images/stubetc.iso images/data.iso images/full.iso
 
 images/stubetc.iso: images/stubetc/*
 	genisoimage -l -r -o images/stubetc.iso images/stubetc
 
 images/data.iso: images/data/conf/* images/data/www/* images/data/www/static/*
 	genisoimage -l -r -o images/data.iso images/data
+
+images/full.iso: images/data/conf/* images/data/www/* images/data/www/static/*
+	@TMPDIR=$(shell mktemp -d) ;\
+	mkdir "$$TMPDIR"/etc/ ;\
+	mkdir "$$TMPDIR"/tmp/ ;\
+	cp -rpf images/stubetc/* "$$TMPDIR"/etc/ ;\
+	cp -rpf images/data/ "$$TMPDIR"/ ;\
+	genisoimage -l -r -o images/full.iso "$$TMPDIR" ;\
+	rm -rf "$$TMPDIR"
 
 .PHONY: clean
 clean:
